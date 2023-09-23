@@ -1,0 +1,49 @@
+<header></header>
+<main>
+    <div class="row" style="width: 100%;">
+        <div class="col-12">
+            <h1>PRICE LIST</h1>
+        </div>
+        <div class="col-12">
+                <table id='table' class="table table-striped table-bordered" cellspacing="0" width="100%">
+                <thead>
+                    <tr>
+                        <th>S.No</th>
+                        <th>Code No</th>
+                        <th>Item</th>
+                        <th>Price</th>
+                        <th>Dis Rate</th>
+                        <th>Required</th>
+                        <th>Total</th>
+                        <th>Dis Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let i of data;let no = index">
+                        <td>{{no+1}}</td>
+                        <td>{{i.code}}</td>
+                        <td>{{i.name}}</td>
+                        <td>{{i.price}}</td>
+                        <td>{{i.dis}}</td>
+                        <td><input type="number" placeholder="1" class="form-control" (input)="requried(i,$event.target)"></td>
+                        <td>{{i.price_total?i.price_total:''}}</td>
+                        <td>{{i.item_total?i.item_total:''}}</td>
+                    </tr>
+                </tbody>
+                <tfoot *ngIf="dis_total">
+                    <tr>
+                        <th colspan="6" style="text-align: right;">Discount Total</th>
+                        <th colspan="2" style="text-align: center;">{{dis_total}}</th>
+                    </tr>
+                </tfoot>
+                <tfoot *ngIf="total">
+                    <tr>
+                        <th colspan="6" style="text-align: right;">Total</th>
+                        <th colspan="2" style="text-align: center;">{{total}}</th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</main>
+<footer></footer>
