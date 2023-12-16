@@ -1,49 +1,101 @@
-<header></header>
+<header class="ipconfig">
+    
+</header>
 <main>
+    <h1 (click)="fetch()">Fetch data</h1>
     <div class="row" style="width: 100%;">
         <div class="col-12">
-            <h1>PRICE LIST</h1>
+            <h1>USER LIST</h1>
+            <a href="upi://pay?pa=7708550202@paytm&am=20&cu=INR">Buy Now</a>
+
         </div>
         <div class="col-12">
-                <table id='table' class="table table-striped table-bordered" cellspacing="0" width="100%">
-                <thead>
-                    <tr>
-                        <th>S.No</th>
-                        <th>Code No</th>
-                        <th>Item</th>
-                        <th>Price</th>
-                        <th>Dis Rate</th>
-                        <th>Required</th>
-                        <th>Total</th>
-                        <th>Dis Total</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let i of data;let no = index">
-                        <td>{{no+1}}</td>
-                        <td>{{i.code}}</td>
-                        <td>{{i.name}}</td>
-                        <td>{{i.price}}</td>
-                        <td>{{i.dis}}</td>
-                        <td><input type="number" placeholder="1" class="form-control" (input)="requried(i,$event.target)"></td>
-                        <td>{{i.price_total?i.price_total:''}}</td>
-                        <td>{{i.item_total?i.item_total:''}}</td>
-                    </tr>
-                </tbody>
-                <tfoot *ngIf="dis_total">
-                    <tr>
-                        <th colspan="6" style="text-align: right;">Discount Total</th>
-                        <th colspan="2" style="text-align: center;">{{dis_total}}</th>
-                    </tr>
-                </tfoot>
-                <tfoot *ngIf="total">
-                    <tr>
-                        <th colspan="6" style="text-align: right;">Total</th>
-                        <th colspan="2" style="text-align: center;">{{total}}</th>
-                    </tr>
-                </tfoot>
-            </table>
+            <form (submit)="save()">
+            <input type="text" class="form-control" value="Karthi" placeholder="Ex..  Karthi" name="user" [(ngModel)]="user" id="">
+            <input type="text" class="form-control" value="7708550202" placeholder="Ex..  903032XXXX" name="mobile" [(ngModel)]="mobile" id="">
+            <input type="text" class="form-control" placeholder="Ex..  code" name="code" [(ngModel)]="code" id="">
+            <input type="text" class="form-control" placeholder="Ex..  name" name="name" [(ngModel)]="name" id="">
+            <input type="text" class="form-control" placeholder="Ex..  price" name="price" [(ngModel)]="price" id="">
+            <input type="text" class="form-control" placeholder="Ex..  per" name="per" [(ngModel)]="per" id="">
+
+            <input type="submit" class="btn btn-primary" value="submit">
+        </form>
+        </div>
+        <div class="col-12">
+            <input type="number" value="70" [disabled]="percent_active" (dblclick)="percent_active=!percent_active"  (input)="percent($event.target)">
+            <input type="text" (input)="search($event.target)">
+        </div>
+        <div class="col-12">
+  <p-table [value]="data"  #dt1
+         [paginator]="true" [rows]="10" [showCurrentPageReport]="true" [globalFilterFields]="['data.code','code','name']"  [rowsPerPageOptions]="[10, 25, 50]"
+ 
+ 
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [scrollable]="true" scrollHeight="550px"   styleClass="p-datatable-sm"
+        [resizableColumns]="true"   [tableStyle]="{ 'min-width': '75rem' }">
+ 
+        <ng-template pTemplate="caption">
+            <div class="flex">
+                <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash"></button>
+                <span class="p-input-icon-left ml-auto">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (input)="dt1.filterGlobal(onInputChange($event), 'contains')" placeholder="Search keyword" />
+                </span>
+            </div>
+        </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th pSortableColumn="testCode" style="width: 40px;">#<p-sortIcon
+                            field="testCode"></p-sortIcon></th>
+                    <th pSortableColumn="testCode" style="width: 140px;">Code <p-sortIcon
+                            field="testCode"></p-sortIcon></th>
+                    <th pSortableColumn="testName" class="hide_data" style="min-width: 120px;">Name
+                        <p-sortIcon field="testName"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="MethodName" class="hide_data" style="width: 120px;">Price
+                        <p-sortIcon field="MethodName"></p-sortIcon></th>
+                        <th pSortableColumn="MethodName" class="hide_data" style="width: 120px;">Per
+                            <p-sortIcon field="MethodName"></p-sortIcon></th>
+                            <th pSortableColumn="MethodName" class="hide_data" style="width: 120px;">Discount
+                                <p-sortIcon field="MethodName"></p-sortIcon></th>
+                    <th pSortableColumn="SampleVolume" class="hide_data" style="width: 120px;">Required
+                        Quantity <p-sortIcon field="SampleVolume"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="SampleVolume" class="hide_data" style="width: 120px;">
+                        Total <p-sortIcon field="SampleVolume"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="testSchdule" class="hide_data" style="width: 120px;">Dis Amt                   <p-sortIcon field="testSchdule"></p-sortIcon>
+                    </th>                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-data let-rowIndex="rowIndex">
+                <tr>
+                    <td>{{rowIndex+1}}</td>
+                    <td class="td-link">{{data.code}}</td>
+                    <td class="hide_data">{{data.name}}</td>
+                    <td class="hide_data">{{data.price}}</td>
+                    <td class="hide_data">{{data.per }}</td>
+                    <td></td>
+                    <td class="hide_data">{{data.dis}}</td>
+                    <td><p-inputNumber inputId="minmax" mode="decimal"  (onInput)="requried1(data,$event)" [min]="0" [max]="100"> </p-inputNumber>
+                    </td>
+                    <td class="hide_data">{{data.price_total}}</td>
+                    <td>{{data.item_total}}</td>                    
+                </tr>
+                
+            </ng-template>
+            <ng-template pTemplate="footer" let-data>
+                <tr class="p-rowgroup-footer">
+                    <th colspan="6" style="text-align: right;">Total</th>
+                    <th colspan="2" style="text-align: center;">{{total}}</th>
+                </tr>
+                <tr class="p-rowgroup-footer">
+                    <th colspan="6" style="text-align: right;">Discount Total</th>
+                    <th colspan="2" style="text-align: center;">{{dis_total}}</th>
+                </tr>
+            </ng-template>
+        </p-table>
         </div>
     </div>
 </main>
-<footer></footer>
+<footer>
+ 
+</footer>
